@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <base target="_top">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>บริการเช่ารถตู้</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+    <style>
+        /* =================================
+           1. General & Typography
+           ================================= */
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #f8f9fa;
+            --text-color: #333;
+            --border-color: #e9ecef;
+        }
+
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Sarabun', sans-serif; margin: 0; color: var(--text-color); line-height: 1.6; }
+        h1, h2, h3, h4 { font-family: 'Kanit', sans-serif; }
+        section { padding: 60px 20px; text-align: center; }
+        .section-container { max-width: 1200px; margin: 0 auto; }
+        section:nth-child(even) { background-color: var(--secondary-color); }
+        h2 { font-size: 2.2rem; margin-bottom: 10px; }
+        .section-subtitle { font-size: 1.1rem; color: #6c757d; margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto; }
+
+        /* =================================
+           2. Header & Navigation
+           ================================= */
+        header { background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        nav { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: auto; padding: 1rem; }
+        .logo { font-size: 1.5rem; font-weight: bold; color: var(--primary-color); }
+        nav ul { list-style: none; display: flex; align-items: center; gap: 20px; margin: 0; padding: 0; }
+        nav .main-nav { flex-grow: 1; justify-content: center; }
+        nav a { text-decoration: none; color: var(--text-color); font-weight: 500; transition: color 0.3s; }
+        nav a:hover { color: var(--primary-color); }
+
+        /* =================================
+           3. Hero Section
+           ================================= */
+        #hero { background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://img2.pic.in.th/pic/White-and-Green-Minimalist-Organic-Coming-Soon-Twitter-Header.png') center/cover no-repeat; color: white; padding: 100px 20px; }
+        #hero h1 { font-size: 3rem; }
+        
+        /* =================================
+           4. Unified Grid & Card Layout
+           ================================= */
+        .content-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; text-align: left; }
+        .card { background: #fff; border: 1px solid var(--border-color); border-radius: 10px; box-shadow: 0 3px 6px rgba(0,0,0,0.05); overflow: hidden; cursor: pointer; transition: transform 0.25s ease, box-shadow 0.25s ease; display: flex; flex-direction: column; }
+        .card:hover { transform: translateY(-6px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+        .card img { width: 100%; height: 180px; object-fit: cover; background-color: #f5f5f5; }
+        .card-content { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
+        .card-content h3 { margin: 0 0 8px 0; font-size: 1.1rem; }
+        .card-content p { margin: 0 0 12px 0; font-size: 0.9rem; color: #6c757d; flex-grow: 1; }
+        .card-content .rating { font-size: 0.9rem; color: #f39c12; }
+        
+        /* =================================
+           5. Specific Sections Styling
+           ================================= */
+        #why-us .card { text-align: center; padding-top: 25px; }
+        #why-us .card i { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 15px; }
+        #testimonials-container .card-content { text-align: center; }
+        #testimonials-container .card-content p { font-style: italic; font-size: 1rem; line-height: 1.5; }
+        #testimonials-container .card-content h4 { margin: 15px 0 5px 0; font-weight: bold; color: #333; }
+        #rates-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; text-align: left; }
+        .rates-card { padding: 25px; border-radius: 12px; background: #fff; border: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.08); position: relative; display: flex; flex-direction: column; }
+        .rates-card.recommended { background-color: var(--primary-color); color: white; border-color: var(--primary-color); transform: scale(1.03); }
+        .rates-card .badge { position: absolute; top: 15px; right: 15px; background: #ffc107; color: #212529; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
+        .rates-card h3 { font-size: 1.4rem; margin-top: 0; }
+        .rates-card .price { font-size: 2.2rem; font-weight: bold; margin: 5px 0; color: var(--primary-color); }
+        .rates-card .period { font-size: 1rem; color: #6c757d; margin-bottom: 20px; }
+        .rates-card.recommended h3, .rates-card.recommended .price, .rates-card.recommended .period, .rates-card.recommended .features-list li { color: white; }
+        .features-list { list-style: none; padding: 0; margin: 15px 0; }
+        .features-list li { margin-bottom: 12px; display: flex; align-items: center; }
+        .features-list li::before { content: '✓'; color: #28a745; font-weight: bold; margin-right: 10px; font-size: 1.2rem; }
+        .rates-card.recommended .features-list li::before { color: #fff; }
+        .cta-button { display: block; width: 100%; padding: 12px; background-color: var(--primary-color); color: white; border: 2px solid var(--primary-color); border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: center; text-decoration: none; margin-top: auto; transition: background-color 0.2s, color 0.2s; }
+        .cta-button:hover { background-color: #0056b3; border-color: #0056b3; }
+        .rates-card.recommended .cta-button { background-color: #fff; color: var(--primary-color); border-color: #fff; }
+        .contact-layout { display: grid; grid-template-columns: 1fr 1.5fr; gap: 50px; text-align: left; }
+        .contact-info .info-item { display: flex; align-items: center; margin-bottom: 20px; }
+        .contact-info .info-item i { font-size: 1.5rem; color: var(--primary-color); margin-right: 20px; width: 30px; text-align: center; }
+        .contact-info .info-item div { font-size: 1rem; }
+        #contact form { max-width: 100%; }
+        #contact input, #contact textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; margin-bottom: 15px; }
+        #contact button { background-color: var(--primary-color); color: white; border: none; padding: 15px; border-radius: 4px; cursor: pointer; font-size: 1rem; width: 100%; }
+
+        /* =================================
+           6. Image Gallery Marquee (ส่วนที่แก้ไข)
+           ================================= */
+        #gallery { padding: 60px 0; background-color: #fff; }
+        .marquee-container {
+            width: 100%;
+            overflow-x: auto; /* เปลี่ยนเป็น auto เพื่อให้ scrollbar แสดงเมื่อจำเป็น */
+            position: relative;
+            cursor: grab;
+            user-select: none;
+        }
+        .marquee-container.active-drag {
+            cursor: grabbing;
+        }
+        .marquee-container::-webkit-scrollbar {
+            display: none; /* ซ่อน scrollbar เพื่อความสวยงาม */
+        }
+        .marquee-container::before, .marquee-container::after { content: ''; position: absolute; top: 0; bottom: 0; width: 100px; z-index: 2; pointer-events: none; }
+        .marquee-container::before { left: 0; background: linear-gradient(to right, white, rgba(255,255,255,0)); }
+        .marquee-container::after { right: 0; background: linear-gradient(to left, white, rgba(255,255,255,0)); }
+        .marquee-content { display: flex; width: fit-content; animation: marquee 40s linear infinite; }
+        .marquee-content.paused { animation-play-state: paused !important; }
+        .marquee-content:hover { animation-play-state: paused; }
+        .marquee-content img { height: 220px; width: auto; margin: 0 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); pointer-events: none; }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* =================================
+           7. Modal Window & Responsive
+           ================================= */
+        .modal { display: none; position: fixed; z-index: 1001; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); }
+        .modal-content { background-color: #fefefe; margin: 5% auto; padding: 20px; border: 1px solid #888; width: 90%; max-width: 800px; border-radius: 8px; position: relative; }
+        .modal .close-btn { position: absolute; top: 10px; right: 25px; color: #aaa; font-size: 35px; font-weight: bold; }
+        .modal .close-btn:hover, .modal .close-btn:focus { color: black; text-decoration: none; cursor: pointer; }
+        #modal-body { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        #modal-images img { width: 100%; height: auto; border-radius: 4px; margin-bottom: 10px; }
+        #modal-details h2 { margin-top: 0; }
+        @media (max-width: 768px) {
+            #modal-body { grid-template-columns: 1fr; }
+            nav .main-nav { display: none; }
+            .contact-layout { grid-template-columns: 1fr; }
+            .footer-container { flex-direction: column; justify-content: center; gap: 15px; }
+        }
+
+        /* =================================
+           8. Utilities (Footer, Loader)
+           ================================= */
+        footer { background: #333; color: #ccc; text-align: center; padding: 20px; }
+        .footer-container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; max-width: 1200px; margin: 0 auto; font-size: 0.9rem; }
+        .footer-left { color: #888; }
+        .footer-right a { color: #aaa; text-decoration: none; transition: color 0.3s; }
+        .footer-right a:hover { color: #fff; }
+        .loader { border: 5px solid #f3f3f3; border-top: 5px solid var(--primary-color); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">รถตู้ให้เช่า</div>
+            <ul class="main-nav">
+                <li><a href="#vans">รถตู้</a></li>
+                <li><a href="#why-us">ทำไมต้องเลือกเรา</a></li>
+                <li><a href="#rates">อัตราค่าบริการ</a></li>
+                <li><a href="#testimonials">ลูกค้าของเรา</a></li>
+                <li><a href="#contact">ติดต่อเรา</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="hero">
+            <div class="section-container">
+                <h1>เช่ารถตู้พร้อมคนขับ บริการประทับใจ</h1>
+                <p class="section-subtitle">เดินทางปลอดภัยทั่วไทยกับทีมงานมืออาชีพ</p>
+            </div>
+        </section>
+
+        <section id="vans">
+            <div class="section-container">
+                <h2>รถตู้ของเรา</h2>
+                <p class="section-subtitle">เรามีรถตู้หลากหลายรุ่นให้เลือกตามความต้องการของคุณ</p>
+                <div id="van-cards-container" class="content-grid">
+                    <div class="loader"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="gallery">
+            <div class="section-container">
+                 <h2>แกลอรี่ภาพ</h2>
+                 <p class="section-subtitle">ภาพส่วนหนึ่งจากบริการของเรา</p>
+            </div>
+            <div class="marquee-container">
+                <div class="marquee-content" id="gallery-container">
+                    </div>
+            </div>
+        </section>
+
+        <section id="why-us">
+            <div class="section-container">
+                <h2>ทำไมต้องเลือกเรา</h2>
+                <div id="why-us-container" class="content-grid">
+                    </div>
+            </div>
+        </section>
+        
+        <section id="rates">
+            <div class="section-container">
+                <h2>อัตราค่าบริการ</h2>
+                <p class="section-subtitle">เรามีแพ็กเกจให้เลือกหลากหลายตามความต้องการของคุณ</p>
+                <div id="rates-container">
+                    </div>
+            </div>
+        </section>
+        
+        <section id="testimonials">
+            <div class="section-container">
+                <h2>ลูกค้าของเรา</h2>
+                <p class="section-subtitle">ความประทับใจจากลูกค้าที่เคยใช้บริการกับเรา</p>
+                <div id="testimonials-container" class="content-grid">
+                    </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="section-container">
+                <h2>ติดต่อเรา</h2>
+                <p class="section-subtitle">สอบถามข้อมูลเพิ่มเติมหรือจองรถตู้ได้ที่นี่</p>
+                <div class="contact-layout">
+                    <div class="contact-info">
+                        <h3>ข้อมูลติดต่อ</h3>
+                        <p>ท่านสามารถติดต่อเราได้ตามช่องทางด้านล่างนี้ เราพร้อมให้บริการตลอด 24 ชั่วโมง</p>
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>123/45 ถนนสุขุมวิท,<br>กรุงเทพมหานคร 10110</div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-phone-alt"></i>
+                            <div>081-234-5678</div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>contact@vanrental.com</div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fab fa-line"></i>
+                            <div>@vanrental</div>
+                        </div>
+                    </div>
+                    <form id="contact-form">
+                        <input type="text" name="name" placeholder="ชื่อ-สกุล" required>
+                        <input type="email" name="email" placeholder="อีเมล" required>
+                        <input type="tel" name="phone" placeholder="เบอร์โทรศัพท์" required>
+                        <textarea name="message" placeholder="ข้อความ" rows="5" required></textarea>
+                        <button type="submit">ส่งข้อความ</button>
+                    </form>
+                </div>
+                <p id="form-status"></p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+       <div class="footer-container">
+           <div class="footer-left">
+               &copy; 2025 บริการรถตู้ให้เช่า. All rights reserved. | Developed by Tanawat.nitan
+           </div>
+           <div class="footer-right">
+               <a href="<?= ScriptApp.getService().getUrl() ?>?page=login">Admin Login</a>
+           </div>
+       </div>
+    </footer>
+
+    <div id="van-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const vanContainer = document.getElementById('van-cards-container');
+            const whyUsContainer = document.getElementById('why-us-container');
+            const testimonialsContainer = document.getElementById('testimonials-container');
+            const ratesContainer = document.getElementById('rates-container');
+            const galleryContainer = document.getElementById('gallery-container');
+            const modal = document.getElementById('van-modal');
+            const modalBody = document.getElementById('modal-body');
+            const closeBtn = modal.querySelector('.close-btn');
+            let allVansData = [];
+
+            function renderStars(rating) {
+                let stars = '';
+                const numericRating = Number(rating);
+                for (let i = 1; i <= 5; i++) {
+                    stars += `<i class="fa${i <= numericRating ? 's' : 'r'} fa-star"></i>`;
+                }
+                return `<span class="rating">${stars}</span>`;
+            }
+
+            google.script.run.withSuccessHandler(data => {
+                console.log("Data received from server:", data);
+                // --- Vans Section ---
+                if (data.vans && Array.isArray(data.vans) && data.vans.length > 0) {
+                    allVansData = data.vans;
+                    vanContainer.innerHTML = allVansData.map(van => `
+                        <div class="card van-card" data-rowindex="${van.rowIndex}">
+                            <img src="${van.imageUrl1 || 'https://via.placeholder.com/280x180.png?text=No+Image'}" alt="${van.name}">
+                            <div class="card-content">
+                                <h3>${van.name || 'ไม่มีชื่อ'}</h3>
+                                <p><strong>ราคา:</strong> ${van.price || 0} บาท/วัน</p>
+                                ${renderStars(van.rating)}
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    vanContainer.innerHTML = "<p>ยังไม่มีข้อมูลรถตู้ในระบบ</p>";
+                }
+                // --- Gallery Section ---
+                if (data.gallery && Array.isArray(data.gallery) && data.gallery.length > 0) {
+                    let galleryHtml = data.gallery.map(item => `<img src="${item.imageUrl}" alt="gallery image">`).join('');
+                    galleryContainer.innerHTML = galleryHtml + galleryHtml;
+                }
+                // --- Why Choose Us Section ---
+                if (data.whyChooseUs && Array.isArray(data.whyChooseUs) && data.whyChooseUs.length > 0) {
+                    whyUsContainer.innerHTML = data.whyChooseUs.map(item => `
+                        <div class="card">
+                            <div class="card-content">
+                                <i class="${item.icon || 'fas fa-check-circle'}"></i>
+                                <h3>${item.title}</h3>
+                                <p>${item.description}</p>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                     whyUsContainer.innerHTML = "";
+                }
+                // --- Testimonials Section ---
+                if (data.testimonials && Array.isArray(data.testimonials) && data.testimonials.length > 0) {
+                    testimonialsContainer.innerHTML = data.testimonials.map(item => `
+                         <div class="card">
+                             ${item.imageUrl ? `<img src="${item.imageUrl}" alt="${item.customerName}">` : ''}
+                            <div class="card-content">
+                                <p>"${item.comment}"</p>
+                                <h4>- ${item.customerName}</h4>
+                                ${renderStars(item.rating)}
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                     testimonialsContainer.innerHTML = "";
+                }
+                // --- Rates Section ---
+                if (data.rates && Array.isArray(data.rates) && data.rates.length > 0) {
+                    ratesContainer.innerHTML = data.rates.map(rate => {
+                        const isRecommended = rate.recommended === 'ใช่';
+                        const features = rate.description ? rate.description.split(',').map(item => `<li>${item.trim()}</li>`).join('') : '';
+                        let priceText = rate.price || "";
+                        let periodText = "";
+                        const priceParts = priceText.split('/');
+                        if (priceParts.length > 1) {
+                            priceText = priceParts[0].trim();
+                            periodText = `/ ${priceParts[1].trim()}`;
+                        }
+                        return `
+                        <div class="rates-card ${isRecommended ? 'recommended' : ''}">
+                            ${isRecommended ? '<div class="badge">แนะนำ</div>' : ''}
+                            <h3>${rate.serviceName}</h3>
+                            <div class="price">${priceText}</div>
+                            <div class="period">${periodText}</div>
+                            <ul class="features-list">
+                                ${features}
+                            </ul>
+                            <a href="#contact" class="cta-button">เลือกแพ็กเกจนี้</a>
+                        </div>
+                        `;
+                    }).join('');
+                } else {
+                    ratesContainer.innerHTML = "<p>ยังไม่มีข้อมูลอัตราค่าบริการ</p>";
+                }
+            }).getWebsiteData();
+
+            // Van Card Click Listener
+            vanContainer.addEventListener('click', (e) => {
+                const card = e.target.closest('.van-card');
+                if (card) {
+                    const rowIndex = card.dataset.rowindex;
+                    const vanData = allVansData.find(v => v.rowIndex == rowIndex);
+                    if (vanData) {
+                        let imagesHtml = '';
+                        for (let i = 1; i <= 4; i++) {
+                            if (vanData[`imageUrl${i}`]) {
+                                imagesHtml += `<img src="${vanData[`imageUrl${i}`]}" alt="รูป${vanData.name} ${i}">`;
+                            }
+                        }
+                        modalBody.innerHTML = `
+                            <div id="modal-images">${imagesHtml || '<p>ไม่มีรูปภาพเพิ่มเติม</p>'}</div>
+                            <div id="modal-details">
+                                <h2>${vanData.name}</h2>
+                                <p>${vanData.description}</p>
+                                <h3>ราคา: ${vanData.price} บาท/วัน</h3>
+                                <div class="rating-modal">${renderStars(vanData.rating)}</div>
+                            </div>
+                        `;
+                        modal.style.display = 'block';
+                    }
+                }
+            });
+
+            // Modal Close Events
+            closeBtn.onclick = () => { modal.style.display = 'none'; };
+            window.onclick = (e) => {
+                if (e.target == modal) {
+                    modal.style.display = 'none';
+                }
+            };
+            
+            // Contact Form Submission
+            const contactForm = document.getElementById('contact-form');
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const button = this.querySelector('button');
+                button.disabled = true;
+                button.textContent = 'กำลังส่ง...';
+                const formData = Object.fromEntries(new FormData(this).entries());
+                google.script.run
+                    .withSuccessHandler(response => {
+                        const formStatus = document.getElementById('form-status');
+                        formStatus.textContent = response.message;
+                        formStatus.style.color = response.success ? 'green' : 'red';
+                        if(response.success) {
+                            contactForm.reset();
+                        }
+                        button.disabled = false;
+                        button.textContent = 'ส่งข้อความ';
+                    })
+                    .withFailureHandler(err => {
+                        const formStatus = document.getElementById('form-status');
+                        formStatus.textContent = "เกิดข้อผิดพลาด: " + err.message;
+                        formStatus.style.color = 'red';
+                        button.disabled = false;
+                        button.textContent = 'ส่งข้อความ';
+                    })
+                    .saveMessage(formData);
+            });
+            
+            // Smooth Scroll for Navigation Links
+            document.addEventListener('click', function(e) {
+                const link = e.target.closest('a[href^="#"]');
+                if (link) {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href');
+                    if (targetId && targetId.length > 1) {
+                        const targetElement = document.querySelector(targetId);
+                        if (targetElement) {
+                            targetElement.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start' 
+                            });
+                        }
+                    }
+                }
+            });
+
+            // === START: โค้ดสำหรับ Drag-to-Scroll Gallery ===
+            const slider = document.querySelector('.marquee-container');
+            if (slider) {
+                const marqueeContent = slider.querySelector('.marquee-content');
+                let isDown = false;
+                let startX;
+                let scrollLeft;
+
+                slider.addEventListener('mousedown', (e) => {
+                    isDown = true;
+                    slider.classList.add('active-drag');
+                    marqueeContent.classList.add('paused');
+                    startX = e.pageX - slider.offsetLeft;
+                    scrollLeft = slider.scrollLeft;
+                });
+                slider.addEventListener('mouseleave', () => {
+                    if (!isDown) return;
+                    isDown = false;
+                    slider.classList.remove('active-drag');
+                    marqueeContent.classList.remove('paused');
+                });
+                slider.addEventListener('mouseup', () => {
+                    if (!isDown) return;
+                    isDown = false;
+                    slider.classList.remove('active-drag');
+                    marqueeContent.classList.remove('paused');
+                });
+                slider.addEventListener('mousemove', (e) => {
+                    if (!isDown) return;
+                    e.preventDefault();
+                    const x = e.pageX - slider.offsetLeft;
+                    const walk = (x - startX) * 2; // The multiplier makes scrolling feel more responsive
+                    slider.scrollLeft = scrollLeft - walk;
+                });
+            }
+            // === END: โค้ดสำหรับ Drag-to-Scroll Gallery ===
+        });
+    </script>
+</body>
+</html>
